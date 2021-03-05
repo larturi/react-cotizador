@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Header } from './components/Header';
 import styled from '@emotion/styled';
 import { Formulario } from './components/Formulario';
 import { Resumen } from './components/Resumen';
+import { Resultado } from './components/Resultado';
+import { Spinner } from './components/Spinner/Spinner';
 
 const Contenedor = styled.div`
   max-width: 600px;
@@ -25,7 +28,9 @@ function App() {
     }
   });
 
-  const { datos } = resumen;
+  const [cargando, setCargando] = useState(false);
+
+  const { cotizacion, datos } = resumen;
 
   return (
     <Contenedor>
@@ -36,14 +41,31 @@ function App() {
       <ContenedorFormulario>
         <Formulario
           setResumen={ setResumen }
+          setCargando={ setCargando }
         />
-
+        
         <Resumen 
           datos={ datos }
         />
+
+        { cargando ? <Spinner /> : null }
+
+        {  
+          !cargando ? 
+            <Resultado
+            cotizacion={ cotizacion }
+            />
+          : null
+        }
+
       </ContenedorFormulario>
     </Contenedor>
   );
+};
+
+Formulario.propTypes = {
+  setResumen: PropTypes.func.isRequired,
+  setCargando: PropTypes.func.isRequired
 }
 
 export default App;

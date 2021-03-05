@@ -52,7 +52,7 @@ const Error = styled.div`
 `;
 
 
-export const Formulario = ({ setResumen }) => {
+export const Formulario = ({ setResumen, setCargando}) => {
 
     const [datos, setDatos] = useState({
         marca: '',
@@ -94,10 +94,20 @@ export const Formulario = ({ setResumen }) => {
 
         resultado = parseFloat(resultado).toFixed(2);
 
-        setResumen({
-            cotizacion: resultado,
-            datos
-        })
+        setCargando(true);
+
+        setTimeout(() => {
+            setResumen({
+                cotizacion: Number(resultado),
+                datos
+            });
+
+            setCargando(false);
+
+        }, 3000);
+
+        
+
 
     };
 
